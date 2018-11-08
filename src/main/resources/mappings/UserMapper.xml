@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dunera.seckill.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.dunera.seckill.pojo.User">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="phone_numbedr" jdbcType="VARCHAR" property="phoneNumbedr" />
+    <result column="avater" jdbcType="INTEGER" property="avater" />
+    <result column="md5password" jdbcType="VARCHAR" property="md5password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_name, phone_numbedr, avater, md5password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.dunera.seckill.pojo.User">
+    insert into user (user_id, user_name, phone_numbedr, 
+      avater, md5password)
+    values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{phoneNumbedr,jdbcType=VARCHAR}, 
+      #{avater,jdbcType=INTEGER}, #{md5password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dunera.seckill.pojo.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="phoneNumbedr != null">
+        phone_numbedr,
+      </if>
+      <if test="avater != null">
+        avater,
+      </if>
+      <if test="md5password != null">
+        md5password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumbedr != null">
+        #{phoneNumbedr,jdbcType=VARCHAR},
+      </if>
+      <if test="avater != null">
+        #{avater,jdbcType=INTEGER},
+      </if>
+      <if test="md5password != null">
+        #{md5password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dunera.seckill.pojo.User">
+    update user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumbedr != null">
+        phone_numbedr = #{phoneNumbedr,jdbcType=VARCHAR},
+      </if>
+      <if test="avater != null">
+        avater = #{avater,jdbcType=INTEGER},
+      </if>
+      <if test="md5password != null">
+        md5password = #{md5password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dunera.seckill.pojo.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      phone_numbedr = #{phoneNumbedr,jdbcType=VARCHAR},
+      avater = #{avater,jdbcType=INTEGER},
+      md5password = #{md5password,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.dunera.seckill.pojo.User">
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="phone_numbedr" jdbcType="VARCHAR" property="phoneNumbedr" />
+    <result column="avater" jdbcType="INTEGER" property="avater" />
+    <result column="md5password" jdbcType="VARCHAR" property="md5password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_name, phone_numbedr, avater, md5password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user
+    where user_id = #{userId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.dunera.seckill.pojo.User">
+    insert into user (user_id, user_name, phone_numbedr, 
+      avater, md5password)
+    values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{phoneNumbedr,jdbcType=VARCHAR}, 
+      #{avater,jdbcType=INTEGER}, #{md5password,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dunera.seckill.pojo.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="phoneNumbedr != null">
+        phone_numbedr,
+      </if>
+      <if test="avater != null">
+        avater,
+      </if>
+      <if test="md5password != null">
+        md5password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumbedr != null">
+        #{phoneNumbedr,jdbcType=VARCHAR},
+      </if>
+      <if test="avater != null">
+        #{avater,jdbcType=INTEGER},
+      </if>
+      <if test="md5password != null">
+        #{md5password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dunera.seckill.pojo.User">
+    update user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumbedr != null">
+        phone_numbedr = #{phoneNumbedr,jdbcType=VARCHAR},
+      </if>
+      <if test="avater != null">
+        avater = #{avater,jdbcType=INTEGER},
+      </if>
+      <if test="md5password != null">
+        md5password = #{md5password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dunera.seckill.pojo.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      phone_numbedr = #{phoneNumbedr,jdbcType=VARCHAR},
+      avater = #{avater,jdbcType=INTEGER},
+      md5password = #{md5password,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

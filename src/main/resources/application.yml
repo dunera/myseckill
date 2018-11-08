@@ -1,0 +1,4 @@
+#mybatis配置
+mybatis:
+  type-aliases-package: com.dunera.seckill.pojo
+  configLocation: classpath:mybatis/mybatis-config.xml
