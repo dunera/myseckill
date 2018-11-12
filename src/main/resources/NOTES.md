@@ -24,6 +24,7 @@ springboot/mybatis/redis/mysql/thymeleaf
   * 秒杀详情表（存储秒杀基本信息）
   * 秒杀订单表（存储秒杀成功订单信息）
   * 用户表（存储用户注册登录相关信息）
+  
 * 业务架构设计（service）
 
   * 用户注册与登录服务
@@ -40,8 +41,7 @@ springboot/mybatis/redis/mysql/thymeleaf
   * mybatis处理dao
   * mysql
   
-* 编码
-  
+* 编码 
 
 
 

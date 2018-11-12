@@ -1,8 +1,11 @@
 package com.dunera.seckill.dao;
 
 import com.dunera.seckill.pojo.User;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserMapper {
+
     int deleteByPrimaryKey(Long userId);
 
     int insert(User record);
@@ -14,4 +17,5 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
 }
