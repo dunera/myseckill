@@ -2,6 +2,7 @@ package com.dunera.seckill.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -11,12 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class UserController {
 
-    @RequestMapping(value = "/login.html")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView showLoginPage(Integer page) {
         if (page == null) {
             page = 0;
         }
         ModelAndView modelAndView = new ModelAndView("login");
+        modelAndView.addObject("page", page);
         return modelAndView;
     }
 }
