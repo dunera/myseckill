@@ -3,9 +3,10 @@ mybatis:
   type-aliases-package: com.dunera.seckill.pojo
   configLocation: classpath:mybatis/mybatis-config.xml
 
-
 #spring-boot配置
 spring:
+  mvc:
+    static-path-pattern: /static/**
   servlet:
     multipart:
       max-file-size: 5120MB #上传文件,单个文件最大5GB

@@ -1,5 +1,6 @@
 package com.dunera.seckill.controller;
 
+import com.dunera.seckill.dto.UserLoginDto;
 import com.dunera.seckill.pojo.User;
 import com.dunera.seckill.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,10 @@ public class IndexController {
     public ModelAndView showIndexPage() {
         User user = SessionUtil.getUserSession(request);
         if (user == null) {
-            return new ModelAndView("redirect:/login.html");
+            ModelAndView modelAndView = new ModelAndView("redirect:/login.html");
+            modelAndView.addObject("user", new UserLoginDto());
+            modelAndView.addObject("error");
+            return modelAndView;
         }
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("user", user);

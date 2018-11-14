@@ -1,0 +1,115 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="browsermode" content="application">
+    <meta name="full-screen" content="yes">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="MobileOptimized" content="320">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="viewport" content="width=1280,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <title>登录模板</title>
+    <link th:href="@{../static/css/vendor.style.css}" rel="stylesheet">
+    <link th:href="@{../static/css/login.style.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<form th:if="${page=='login'}" th:action="@{/loginPage}" method="post" th:object="${user}" th:id="login-form">
+    <div id="container-login">
+        <div data-reactroot="">
+            <div class="o-border">
+                <div class="o-box">
+                    <div class="o-box-login">登录</div>
+                    <div class="o-box-input">
+                        <div>
+                            <div class="mobileIcon"></div>
+                            <input type="text" th:field="*{userName}" autocomplete="off" placeholder="请输入用户名">
+                            <p class="input-text-1"></p>
+                        </div>
+                    </div>
+                    <div class="o-box-input">
+                        <div>
+                            <div class="passwordIcon"></div>
+                            <input type="password" th:field="*{password}" autocomplete="off" placeholder="请输入6-20位密码">
+                            <p class="input-text-1"></p>
+                        </div>
+                    </div>
+                    <div class="o-box-input">
+                        <input class="o-box-text-1" type="submit" value="登录" readonly/>
+                    </div>
+                    <div class="o-box-input">
+                        <div>
+                            <p class="input-text-2">
+                                <a href="/index.html?page=register">点击注册</a>
+                                <span><a th:text="${error}"></a></span>
+                            </p>
+                            <a th:href="forget.html" class="o-box-text-2">忘记密码</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<form th:if="${page=='register'}" th:action="@{/loginPage}" method="post" th:object="${user}" th:id="login-form">
+    <div id="container-register">
+        <div data-reactroot="">
+            <div class="o-border">
+                <div class="o-box">
+                    <div class="o-box-login">注册</div>
+                    <div class="o-box-input">
+                        <div>
+                            <div class="mobileIcon"></div>
+                            <input type="text" th:field="*{userName}" autocomplete="off" placeholder="请输入用户名">
+                            <p class="input-text-1"></p>
+                        </div>
+                    </div>
+                    <div class="o-box-input">
+                        <div>
+                            <div class="passwordIcon"></div>
+                            <input type="password" th:field="*{password}" autocomplete="off" placeholder="请输入密码">
+                            <p class="input-text-1"></p>
+                        </div>
+                    </div>
+                    <div class="o-box-input">
+                        <div>
+                            <div class="passwordIcon"></div>
+                            <input type="password" th:field="*{confirmPassword}" autocomplete="off"
+                                   placeholder="请再次输入密码">
+                            <p class="input-text-1"></p>
+                        </div>
+                    </div>
+                    <div class="o-box-input">
+                        <input class="o-box-text-1" type="submit" value="确认注册" readonly/>
+                    </div>
+                    <div class="o-box-input">
+                        <div>
+                            <p class="input-text-2">
+                                <a href="/index.html?page=login">点击登录</a>
+                                <span><a th:text="${error}"></a></span>
+                            </p>
+                            <a th:href="forget.html" class="o-box-text-2">忘记密码</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+</body>
+</html>
