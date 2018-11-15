@@ -14,6 +14,8 @@ public interface UserService {
 
     User getUserByUserName(String userName);
 
-    User getUserByUserId(Integer userId);
+    User getUserByUserId(Long userId);
+
+    boolean checkUserNameIllegal(String userName);
 
 }

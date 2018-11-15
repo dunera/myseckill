@@ -3,8 +3,10 @@ package com.dunera.seckill.service.impl;
 import com.dunera.seckill.dao.UserMapper;
 import com.dunera.seckill.pojo.User;
 import com.dunera.seckill.service.UserService;
+import com.dunera.seckill.utils.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 /**
  * @author lyx
@@ -27,16 +29,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkPassword(String userName, String password) {
-        return false;
+        User user = getUserByUserName(userName);
+        return user != null && MD5.checkMD5(password, user.getMd5password());
     }
 
     @Override
     public User getUserByUserName(String userName) {
-        return null;
+        return userMapper.selectByUserName(userName);
     }
 
     @Override
-    public User getUserByUserId(Integer userId) {
-        return null;
+    public User getUserByUserId(Long userId) {
+        return userMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
+    public boolean checkUserNameIllegal(String userName) {
+        return getUserByUserName(userName) == null;
     }
 }

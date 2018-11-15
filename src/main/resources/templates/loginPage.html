@@ -24,7 +24,7 @@
 
 <body>
 
-<form th:if="${page=='login'}" th:action="@{/loginPage}" method="post" th:object="${user}" th:id="login-form">
+<form th:if="${page==0}" th:action="@{/login}" method="post" th:object="${user}" th:id="login-form">
     <div id="container-login">
         <div data-reactroot="">
             <div class="o-border">
@@ -50,7 +50,7 @@
                     <div class="o-box-input">
                         <div>
                             <p class="input-text-2">
-                                <a href="/index.html?page=register">点击注册</a>
+                                <a href="/loginPage.html?page=1">点击注册</a>
                                 <span><a th:text="${error}"></a></span>
                             </p>
                             <a th:href="forget.html" class="o-box-text-2">忘记密码</a>
@@ -64,7 +64,7 @@
 </form>
 
 
-<form th:if="${page=='register'}" th:action="@{/loginPage}" method="post" th:object="${user}" th:id="login-form">
+<form th:if="${page==1}" th:action="@{/register}" method="post" th:object="${user}" th:id="login-form">
     <div id="container-register">
         <div data-reactroot="">
             <div class="o-border">
@@ -98,7 +98,7 @@
                     <div class="o-box-input">
                         <div>
                             <p class="input-text-2">
-                                <a href="/index.html?page=login">点击登录</a>
+                                <a href="/loginPage.html?page=0">点击登录</a>
                                 <span><a th:text="${error}"></a></span>
                             </p>
                             <a th:href="forget.html" class="o-box-text-2">忘记密码</a>

@@ -7,7 +7,7 @@ public class User implements Serializable {
 
     private String userName;
 
-    private String phoneNumbedr;
+    private String phoneNumber;
 
     private Integer avater;
 
@@ -31,12 +31,12 @@ public class User implements Serializable {
         this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getPhoneNumbedr() {
-        return phoneNumbedr;
+    public String getphoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhoneNumbedr(String phoneNumbedr) {
-        this.phoneNumbedr = phoneNumbedr == null ? null : phoneNumbedr.trim();
+    public void setphoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber == null ? null : phoneNumber.trim();
     }
 
     public Integer getAvater() {
@@ -69,7 +69,7 @@ public class User implements Serializable {
         User other = (User) that;
         return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getUserName() == null ? other.getUserName() == null : this.getUserName().equals(other.getUserName()))
-            && (this.getPhoneNumbedr() == null ? other.getPhoneNumbedr() == null : this.getPhoneNumbedr().equals(other.getPhoneNumbedr()))
+            && (this.getphoneNumber() == null ? other.getphoneNumber() == null : this.getphoneNumber().equals(other.getphoneNumber()))
             && (this.getAvater() == null ? other.getAvater() == null : this.getAvater().equals(other.getAvater()))
             && (this.getMd5password() == null ? other.getMd5password() == null : this.getMd5password().equals(other.getMd5password()));
     }
@@ -80,7 +80,7 @@ public class User implements Serializable {
         int result = 1;
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getUserName() == null) ? 0 : getUserName().hashCode());
-        result = prime * result + ((getPhoneNumbedr() == null) ? 0 : getPhoneNumbedr().hashCode());
+        result = prime * result + ((getphoneNumber() == null) ? 0 : getphoneNumber().hashCode());
         result = prime * result + ((getAvater() == null) ? 0 : getAvater().hashCode());
         result = prime * result + ((getMd5password() == null) ? 0 : getMd5password().hashCode());
         return result;
@@ -94,7 +94,7 @@ public class User implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", userId=").append(userId);
         sb.append(", userName=").append(userName);
-        sb.append(", phoneNumbedr=").append(phoneNumbedr);
+        sb.append(", phoneNumber=").append(phoneNumber);
         sb.append(", avater=").append(avater);
         sb.append(", md5password=").append(md5password);
         sb.append(", serialVersionUID=").append(serialVersionUID);

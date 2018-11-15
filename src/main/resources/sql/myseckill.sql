@@ -11,7 +11,7 @@
  Target Server Version : 50641
  File Encoding         : 65001
 
- Date: 09/11/2018 00:12:03
+ Date: 15/11/2018 23:20:03
 */
 
 SET NAMES utf8mb4;
@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(120) NOT NULL COMMENT '商品名称',
   `price` decimal(10,2) DEFAULT NULL COMMENT '商品价格',
   `stock` int(20) DEFAULT NULL COMMENT '商品库存',
@@ -39,7 +39,7 @@ CREATE TABLE `goods` (
 -- ----------------------------
 DROP TABLE IF EXISTS `secKill_order`;
 CREATE TABLE `secKill_order` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
   `goods_id` bigint(20) DEFAULT NULL COMMENT '商品id',
   `seckill_id` bigint(20) DEFAULT NULL COMMENT '秒杀详情id',
@@ -70,9 +70,9 @@ CREATE TABLE `seckill_detail` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `user_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_name` varchar(20) DEFAULT NULL COMMENT '用户名',
-  `phone_numbedr` varchar(20) DEFAULT NULL COMMENT '用户电话',
+  `phone_number` varchar(20) DEFAULT NULL COMMENT '用户电话',
   `avater` int(255) DEFAULT NULL COMMENT '头像',
   `md5password` varchar(255) DEFAULT NULL COMMENT 'md5加密密码',
   PRIMARY KEY (`user_id`) USING BTREE
