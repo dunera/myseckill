@@ -11,7 +11,7 @@
  Target Server Version : 50641
  File Encoding         : 65001
 
- Date: 15/11/2018 23:20:03
+ Date: 16/11/2018 16:44:11
 */
 
 SET NAMES utf8mb4;
@@ -29,10 +29,10 @@ CREATE TABLE `goods` (
   `type` tinyint(10) DEFAULT NULL COMMENT '商品类型',
   `details` varchar(255) DEFAULT NULL COMMENT '商品详情',
   `image` varchar(255) DEFAULT NULL COMMENT '商品图片',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `is_active` tinyint(1) DEFAULT NULL COMMENT '是否有效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for secKill_order
@@ -44,26 +44,26 @@ CREATE TABLE `secKill_order` (
   `goods_id` bigint(20) DEFAULT NULL COMMENT '商品id',
   `seckill_id` bigint(20) DEFAULT NULL COMMENT '秒杀详情id',
   `state` smallint(20) DEFAULT NULL COMMENT '订单状态',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for seckill_detail
 -- ----------------------------
 DROP TABLE IF EXISTS `seckill_detail`;
 CREATE TABLE `seckill_detail` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `goods_id` bigint(20) DEFAULT NULL COMMENT '商品id',
   `name` varchar(120) DEFAULT NULL COMMENT '秒杀商品名称',
   `seckill_price` decimal(10,2) DEFAULT NULL COMMENT '秒杀商品价格',
   `stock` int(20) DEFAULT NULL COMMENT '秒杀商品库存',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   `start_time` datetime DEFAULT NULL COMMENT '秒杀开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '秒杀结束时间',
-  `is_active` tinyint(1) DEFAULT NULL COMMENT '是否有效',
+  `is_active` tinyint(1) DEFAULT NULL COMMENT '是否有效 0-无效，1-有效',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for user
@@ -76,6 +76,6 @@ CREATE TABLE `user` (
   `avater` int(255) DEFAULT NULL COMMENT '头像',
   `md5password` varchar(255) DEFAULT NULL COMMENT 'md5加密密码',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 SET FOREIGN_KEY_CHECKS = 1;

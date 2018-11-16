@@ -1,7 +1,9 @@
 package com.dunera.seckill.dao;
 
 import com.dunera.seckill.pojo.Goods;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface GoodsMapper {
     int deleteByPrimaryKey(Long id);
 

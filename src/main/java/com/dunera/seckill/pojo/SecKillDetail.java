@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class SecKillDetail implements Serializable {
+
     private Long id;
 
     private Long goodsId;

@@ -51,7 +51,7 @@ public class UserController {
         }
         User user = userService.getUserByUserName(userLoginDto.getUserName());
         SessionUtil.setUserSession(request, user);
-        return new ModelAndView("redirect:/index.html");
+        return new ModelAndView("redirect:/seckill/list.html");
     }
 
     @RequestMapping(value = "/register")
@@ -72,8 +72,6 @@ public class UserController {
             return modelAndView;
         }
         userService.addUser(userName, MD5.getMD5(confirmPassword), headpic == null ? 0 : headpic);
-        User user = userService.getUserByUserName(userName);
-        SessionUtil.setUserSession(request, user);
-        return new ModelAndView("redirect:/index.html");
+        return new ModelAndView("redirect:/loginPage.html", "message", "注册成功");
     }
 }
