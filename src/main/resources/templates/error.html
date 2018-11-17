@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<head th:include="common/header::header">
+    <title>Title</title>
+</head>
+<body>
+
+<div th:include="common/navbar :: nav"></div>
+<div class="container margin-top-85">
+    <br>
+    <span class="center">错误信息：</span> <div class="center" th:text="${message}"></div>
+</div>
+</body>
+</html>

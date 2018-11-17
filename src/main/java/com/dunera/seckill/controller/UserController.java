@@ -54,6 +54,12 @@ public class UserController {
         return new ModelAndView("redirect:/seckill/list.html");
     }
 
+    @RequestMapping(value = "/logout.html")
+    public String logout() {
+        SessionUtil.removeUserSession(request);
+        return "redirect:/loginPage.html";
+    }
+
     @RequestMapping(value = "/register")
     public ModelAndView checkRegister(String userName, String password, String confirmPassword, Integer headpic) {
 

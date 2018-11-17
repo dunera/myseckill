@@ -3,7 +3,6 @@ mybatis:
   type-aliases-package: com.dunera.seckill.pojo
   configLocation: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mappings/*.xml
-
 #spring-boot配置
 spring:
   mvc:
@@ -56,3 +55,8 @@ spring:
 
   session: #session使用redis存储
     store-type: redis
+server:
+  port: 8081
+logging:
+  level:
+    com.dunera.seckill: DEBUG

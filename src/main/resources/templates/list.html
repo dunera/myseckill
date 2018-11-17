@@ -1,27 +1,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!DOCTYPE html>
-<html>
-<head>
+<head th:include="common/header::header">
     <title>秒杀商品列表</title>
 </head>
 <body>
-<div class="container">
+<div th:include="common/navbar :: nav"></div>
+<div th:fragment="seckillList" class="container margin-top-85">
     <div class="panel panel-default">
         <div class="panel-heading text-center">
-            <h2>秒杀列表</h2>
+            <h2>今日特价秒杀</h2>
         </div>
         <div class="panel-body">
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>名称</th>
+                    <th>商品名称</th>
                     <th>原价</th>
                     <th>秒杀价格</th>
                     <th>库存</th>
                     <th>开始时间</th>
                     <th>结束时间</th>
-                    <th>创建时间</th>
-                    <th>详情</th>
+                    <th>上架时间</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,7 @@
                     <td th:text="${#dates.format(sk.startTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td th:text="${#dates.format(sk.endTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td th:text="${#dates.format(sk.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td><a class="btn btn-info" th:href="@{'/seckill/detail/'+${sk.id}}" target="_blank">详情</a></td>
+                    <td><a class="btn btn-info" th:href="@{'/seckill/detail/'+${sk.id}}">立即抢购</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -42,11 +42,5 @@
     </div>
 </div>
 
-
-<!--&lt;!&ndash; jQuery文件。务必在bootstrap.min.js 之前引入 &ndash;&gt;-->
-<!--<script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>-->
-
-<!--&lt;!&ndash; 最新的 Bootstrap 核心 JavaScript 文件 &ndash;&gt;-->
-<!--<script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>-->
 </body>
 </html>

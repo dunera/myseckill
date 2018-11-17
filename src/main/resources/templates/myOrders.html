@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<head th:include="common/header::header">
+    <title>我的秒杀订单列表</title>
+</head>
+<body>
+<div th:include="common/navbar :: nav"></div>
+<div class="container margin-top-85">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">
+            <h2>我的订单</h2>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>订单id</th>
+                    <th>订单状态</th>
+                    <th>商品名称</th>
+                    <th>下单时间</th>
+                    <th>详情</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="o : ${orders}">
+                    <td th:text="${o.id}"></td>
+                    <td th:text="${o.state}"></td>
+                    <td th:text="${o.goodsId}"></td>
+                    <td th:text="${#dates.format(o.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td><a class="btn btn-info" th:href="@{'/seckill/detail/'+${o.seckillId}}">详情</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

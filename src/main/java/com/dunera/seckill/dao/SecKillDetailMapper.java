@@ -1,5 +1,6 @@
 package com.dunera.seckill.dao;
 
+import com.dunera.seckill.vo.SecKillGoodDetailVo;
 import com.dunera.seckill.pojo.SecKillDetail;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,8 @@ public interface SecKillDetailMapper {
     int insertSelective(SecKillDetail record);
 
     SecKillDetail selectByPrimaryKey(Long id);
+
+    SecKillGoodDetailVo selectSecKillGoodDetails(Long id);
 
     int updateByPrimaryKeySelective(SecKillDetail record);
 

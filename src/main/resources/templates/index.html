@@ -1,10 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+<head th:include="common/header::header">
     <title>Title</title>
 </head>
 <body>
-hello i don't konw
+<th:block th:include="common/navbar :: nav">
+</th:block>
+
+<th:block th:include="list :: seckillList">
+</th:block>
 </body>
 </html>
