@@ -63,3 +63,4 @@ server:
 logging:
   level:
     com.dunera.seckill: DEBUG
+
