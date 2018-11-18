@@ -920,7 +920,7 @@ a, a:active, a:hover, a:link, a:visited {
 }
 
 .o-box .o-box-input > div .mobileIcon {
-    /*background: url(../images/58c38ccd7649b3bd12e00a5f97987a1e.png) no-repeat 50%;*/
+    background: url(../img/phone.png) no-repeat 50%;
     height: 100%;
     width: 78px;
     position: absolute;
@@ -928,7 +928,7 @@ a, a:active, a:hover, a:link, a:visited {
 }
 
 .o-box .o-box-input > div .passwordIcon {
-    /*background: url(../images/443aac86619299d3bc62a6ca45d1c8d8.png) no-repeat 50%;*/
+    background: url(../img/passwd.png) no-repeat 50%;
     height: 100%;
     width: 78px;
     position: absolute;

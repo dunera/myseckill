@@ -1,36 +1,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!DOCTYPE html>
 
-<div th:fragment="nav" class="row nav-top-container">
-    <div class="col-lg-1 col-md-1 col-xs-0"></div>
-    <div class="col-lg-10 col-md-10 col-xs-12">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!--首页按钮-->
-                <div class="navbar-header">
-                    <a class="btn btn-default btn-lg nav-ico btn-nav-home" href="/seckill/list.html" role="button">
-                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                    </a>
-                </div>
+<div th:fragment="nav">
+    <nav class="top">
+        <a href="/seckill/list.html">
+            <span style="color:#C40000;margin:5px" class="glyphicon glyphicon-home redColor"></span>
+            <span>首页</span>
+        </a>
 
-                <!--用户中心按钮-->
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <a class="btn btn-default btn-lg nav-ico btn-nav-home dropdown-toggle"
-                           role="button" data-toggle="dropdown" aria-haspopup="true"
-                           aria-expanded="false">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/seckill/myOrders.html">我的订单</a></li>
-                            <li><a href="/logout.html">退出</a></li>
-                        </ul>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <div class="col-lg-1 col-md-1 col-xs-0"></div>
+        <span class="pull-right" style="margin: 5px">
+            <th:block th:if="${#session.getAttribute('user') != null}">
+                <a href="/seckill/list.html" th:text="'当前用户：' + ${#session.getAttribute('user').getUserName()}"></a>
+                <a href="/logout.html">退出</a>
+                <a href="/seckill/myOrders.html">我的订单</a>
+            </th:block>
+
+            <th:block th:if="${#session.getAttribute('user') == null}">
+                <a href="/loginPage.html">请登录</a>
+                <a href="/loginPage.html?page=1">免费注册</a>
+            </th:block>
+		</span>
+    </nav>
+    <br>
 </div>
-<br>
 </html>

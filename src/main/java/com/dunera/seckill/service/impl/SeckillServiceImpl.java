@@ -10,6 +10,7 @@ import com.dunera.seckill.pojo.User;
 import com.dunera.seckill.service.SeckillService;
 import com.dunera.seckill.vo.SecKillGoodDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -54,14 +55,18 @@ public class SeckillServiceImpl implements SeckillService {
 
         SecKillOrder order = new SecKillOrder();
         try {
+            //生成新订单
             order.setGoodsId(secKillDetail.getGoodsId());
             order.setSeckillId(secKillDetail.getId());
             order.setState(SecKillOrder.STATE_SUCCESS);
             order.setUserId(user.getUserId());
             order.setCreateTime(new Date());
             secKillOrderMapper.insert(order);
-        } catch (Exception e) {
-            throw new GlobalException(CodeMessage.FAIL);
+            //减库存
+            secKillDetail.setStock(secKillDetail.getStock() - 1);
+            secKillDetailMapper.updateByPrimaryKey(secKillDetail);
+        } catch (DuplicateKeyException e) {
+            throw new GlobalException(CodeMessage.SEK_REPEAT_ORDER);
         }
         return order;
     }
@@ -79,5 +84,40 @@ public class SeckillServiceImpl implements SeckillService {
     @Override
     public List<SecKillOrder> getSecKillOrders(User user) {
         return secKillOrderMapper.selectUserOrders(user);
+    }
+
+    @Override
+    public int getSecKillStatus(SecKillGoodDetailVo detailVo) {
+        long startTime = detailVo.getStartTime().getTime();
+        long endTime = detailVo.getEndTime().getTime();
+        long now = System.currentTimeMillis();
+        //秒杀还没开始，倒计时
+        int status = 0;
+        if (now > endTime) {
+            status = 2;
+            //秒杀进行中
+        } else if (startTime < now && now < endTime) {
+            status = 1;
+        }
+        return status;
+    }
+
+    @Override
+    public int getRemainSeconds(SecKillGoodDetailVo detailVo) {
+        long startTime = detailVo.getStartTime().getTime();
+        long endTime = detailVo.getEndTime().getTime();
+        long now = System.currentTimeMillis();
+
+        int remainSeconds = 0;
+        //秒杀还没开始，倒计时
+        if (now < startTime) {
+            remainSeconds = (int) ((startTime - now) / 1000);
+            //秒杀已经结束
+        } else if (startTime < now && now < endTime) {
+            remainSeconds = (int) ((endTime - now) / 1000);
+        } else {//秒杀进行中
+            remainSeconds = -1;
+        }
+        return remainSeconds;
     }
 }

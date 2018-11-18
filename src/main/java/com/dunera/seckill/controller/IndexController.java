@@ -19,13 +19,10 @@ public class IndexController {
     @Autowired
     HttpServletRequest request;
 
-    @RequestMapping(value = {"/", "/index.html"})
+    @RequestMapping(value = {"/", "/index.html","/index"})
     public ModelAndView showIndexPage() {
         User user = SessionUtil.getUserSession(request);
-        if (user == null) {
-            return new ModelAndView("redirect:/loginPage.html");
-        }
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("redirect:/seckill/list.html");
         modelAndView.addObject("user", user);
         return modelAndView;
     }

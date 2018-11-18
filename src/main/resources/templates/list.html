@@ -5,7 +5,7 @@
 </head>
 <body>
 <div th:include="common/navbar :: nav"></div>
-<div th:fragment="seckillList" class="container margin-top-85">
+<div th:fragment="seckillList" class="container">
     <div class="panel panel-default">
         <div class="panel-heading text-center">
             <h2>今日特价秒杀</h2>
@@ -33,7 +33,7 @@
                     <td th:text="${#dates.format(sk.startTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td th:text="${#dates.format(sk.endTime,'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td th:text="${#dates.format(sk.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td><a class="btn btn-info" th:href="@{'/seckill/detail/'+${sk.id}}">立即抢购</a></td>
+                    <td><a class="o-btn-1 o-btn-info-1" th:href="@{'/seckill/detail/'+${sk.id}}">立即抢购</a></td>
                 </tr>
                 </tbody>
             </table>

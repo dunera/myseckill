@@ -5,7 +5,7 @@
 </head>
 <body>
 <div th:include="common/navbar :: nav"></div>
-<div class="container margin-top-85">
+<div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">秒杀商品详情</div>
         <div class="panel-body">
@@ -60,7 +60,7 @@
             <tr>
                 <td>
                     <form id="seckillForm" method="post" th:action="@{/seckill/doSecKill.html}">
-                        <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>
+                        <button class="o-box-form-1" type="submit" id="buyButton">立即秒杀</button>
                         <input type="hidden" name="seckillGoodId" th:value="${seckillGood.secKillId}"/>
                     </form>
                 </td>

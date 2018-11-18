@@ -33,4 +33,14 @@ public interface SeckillService {
      * 获取秒杀订单
      */
     List<SecKillOrder> getSecKillOrders(User user);
+
+    /**
+     * 获取秒杀状态
+     */
+    int getSecKillStatus(SecKillGoodDetailVo detailVo);
+
+    /**
+     * 获取秒杀剩余时间
+     */
+    int getRemainSeconds(SecKillGoodDetailVo detailVo);
 }

@@ -6,7 +6,6 @@ import com.dunera.seckill.service.UserService;
 import com.dunera.seckill.utils.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
 
 /**
  * @author lyx
@@ -19,10 +18,11 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public void addUser(String userName, String password, int avatar) {
+    public void addUser(String userName, String password, String phoneNumer, int avatar) {
         User user = new User();
         user.setUserName(userName);
         user.setMd5password(password);
+        user.setphoneNumber(phoneNumer);
         user.setAvater(avatar);
         userMapper.insert(user);
     }

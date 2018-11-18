@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SessionUtil {
 
-    private final static String USER_SESSION = "showUserPage";
+    private final static String USER_SESSION = "user";
 
     public static User getUserSession(HttpServletRequest request) {
         return (User) request.getSession().getAttribute(USER_SESSION);

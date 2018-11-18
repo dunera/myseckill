@@ -52,27 +52,10 @@ public class SeckillController {
         if (seckillGood == null) {
             return "forward:/seckill/list.html";
         }
-
-        long startTime = seckillGood.getStartTime().getTime();
-        long endTime = seckillGood.getEndTime().getTime();
-        long now = System.currentTimeMillis();
-
-        int seckillStatus = 0;
-        int remainSeconds = 0;
-        //秒杀还没开始，倒计时
-        if (now < startTime) {
-            remainSeconds = (int) ((startTime - now) / 1000);
-            //秒杀已经结束
-        } else if (now > endTime) {
-            seckillStatus = 2;
-            remainSeconds = -1;
-        } else {//秒杀进行中
-            seckillStatus = 1;
-            remainSeconds = 0;
-        }
+        int seckillStatus = seckillService.getSecKillStatus(seckillGood);
+        int remainSeconds = seckillService.getRemainSeconds(seckillGood);
         model.addAttribute("seckillStatus", seckillStatus);
         model.addAttribute("remainSeconds", remainSeconds);
-
         model.addAttribute("seckillGood", seckillGood);
         return "detail";
     }
@@ -85,8 +68,9 @@ public class SeckillController {
         }
         try {
             SecKillOrder order = seckillService.doSecKill(user, seckillGoodId);
+            model.addAttribute("user", user);
             model.addAttribute("order", order);
-            return "myOrders";
+            return "redirect:/seckill/myOrders.html";
         } catch (GlobalException e) {
             model.addAttribute("message", e.getCodeMessage().getMessage());
             return "error";

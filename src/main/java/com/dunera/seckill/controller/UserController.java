@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,6 +46,9 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(@ModelAttribute("user") UserLoginDto userLoginDto) {
+        if (userLoginDto == null || StringUtils.isEmpty(userLoginDto.getUserName()) || StringUtils.isEmpty(userLoginDto.getPassword())) {
+            return new ModelAndView("redirect:/loginPage.html", "error", "用户名或密码不能为空。");
+        }
         boolean valid = userService.checkPassword(userLoginDto.getUserName(), userLoginDto.getPassword());
         if (!valid) {
             return new ModelAndView("redirect:/loginPage.html", "error", "用户名或密码错误。");
@@ -57,13 +61,17 @@ public class UserController {
     @RequestMapping(value = "/logout.html")
     public String logout() {
         SessionUtil.removeUserSession(request);
-        return "redirect:/loginPage.html";
+        return "redirect:/seckill/list.html";
     }
 
     @RequestMapping(value = "/register")
-    public ModelAndView checkRegister(String userName, String password, String confirmPassword, Integer headpic) {
+    public ModelAndView checkRegister(UserLoginDto userDto) {
 
-        logger.info("username:{},password:{}", userName, password);
+        logger.info("username:{},password:{}", userDto.getUserName(), userDto.getPassword());
+        String userName = userDto.getUserName();
+        String password = userDto.getPassword();
+        String confirmPassword = userDto.getConfirmPassword();
+        String phoneNumber = userDto.getPhoneNumber();
         if (!password.equals(confirmPassword)) {
             ModelAndView modelAndView = new ModelAndView("redirect:/loginPage.html");
             modelAndView.addObject("error", "两次输入的密码不一致");
@@ -77,7 +85,7 @@ public class UserController {
             modelAndView.addObject("page", 1);
             return modelAndView;
         }
-        userService.addUser(userName, MD5.getMD5(confirmPassword), headpic == null ? 0 : headpic);
+        userService.addUser(userName, MD5.getMD5(confirmPassword), phoneNumber, 0);
         return new ModelAndView("redirect:/loginPage.html", "message", "注册成功");
     }
 }
