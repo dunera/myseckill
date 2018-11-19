@@ -12,7 +12,6 @@
 4. 库存和订单处理
 5. 秒杀结果展示
 
-
 #### 项目搭建与技术选型
 version1.0  
 springboot/mybatis/redis/mysql/thymeleaf
@@ -34,7 +33,8 @@ springboot/mybatis/redis/mysql/thymeleaf
   
 * 技术架构梳理
 
-  * 前端thymeleaf/springmvc
+  * 前端 thymeleaf/springMvc/bootstrap/jQuery/layer.js
+  * 前后端分离
   * redis缓存，分布式锁
   * kafka消息队列
   * spring管理bean，事务，整合mybatis
@@ -42,6 +42,19 @@ springboot/mybatis/redis/mysql/thymeleaf
   * mysql
   
 * 编码 
+
+  * 代码规范
+  * 设计模式
+  
+* 压力测试
+
+  * 工具：jMeter ab
+
+* 项目部署
+
+  * docker
+  
+* 秒杀架构相关优化点
 
 
 

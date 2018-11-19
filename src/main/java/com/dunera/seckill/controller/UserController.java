@@ -32,26 +32,25 @@ public class UserController {
     @Autowired
     private HttpServletRequest request;
 
-    @RequestMapping(value = "/loginPage.html")
+    @RequestMapping(value = "/login.html")
     public ModelAndView index(Integer page) {
         if (page == null) {
             page = 0;
         }
-        ModelAndView modelAndView = new ModelAndView("loginPage");
+        ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("page", page);
         modelAndView.addObject("user", new UserLoginDto());
-
         return modelAndView;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(@ModelAttribute("user") UserLoginDto userLoginDto) {
         if (userLoginDto == null || StringUtils.isEmpty(userLoginDto.getUserName()) || StringUtils.isEmpty(userLoginDto.getPassword())) {
-            return new ModelAndView("redirect:/loginPage.html", "error", "用户名或密码不能为空。");
+            return new ModelAndView("redirect:/login.html", "error", "用户名或密码不能为空。");
         }
         boolean valid = userService.checkPassword(userLoginDto.getUserName(), userLoginDto.getPassword());
         if (!valid) {
-            return new ModelAndView("redirect:/loginPage.html", "error", "用户名或密码错误。");
+            return new ModelAndView("redirect:/login.html", "error", "用户名或密码错误。");
         }
         User user = userService.getUserByUserName(userLoginDto.getUserName());
         SessionUtil.setUserSession(request, user);
@@ -73,19 +72,19 @@ public class UserController {
         String confirmPassword = userDto.getConfirmPassword();
         String phoneNumber = userDto.getPhoneNumber();
         if (!password.equals(confirmPassword)) {
-            ModelAndView modelAndView = new ModelAndView("redirect:/loginPage.html");
+            ModelAndView modelAndView = new ModelAndView("redirect:/login.html");
             modelAndView.addObject("error", "两次输入的密码不一致");
             return modelAndView;
         }
 
         boolean isValidUser = userService.checkUserNameIllegal(userName);
         if (!isValidUser) {
-            ModelAndView modelAndView = new ModelAndView("redirect:/loginPage.html");
+            ModelAndView modelAndView = new ModelAndView("redirect:/login.html");
             modelAndView.addObject("error", "用户名已经存在");
             modelAndView.addObject("page", 1);
             return modelAndView;
         }
         userService.addUser(userName, MD5.getMD5(confirmPassword), phoneNumber, 0);
-        return new ModelAndView("redirect:/loginPage.html", "message", "注册成功");
+        return new ModelAndView("redirect:/login.html", "message", "注册成功");
     }
 }
