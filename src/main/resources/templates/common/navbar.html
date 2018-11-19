@@ -12,7 +12,7 @@
             <th:block th:if="${#session.getAttribute('user') != null}">
                 <a href="/seckill/list.html" th:text="'当前用户：' + ${#session.getAttribute('user').getUserName()}"></a>
                 <a href="/logout.html">退出</a>
-                <a href="/seckill/myOrders.html">我的订单</a>
+                <a href="/seckill/orders.html">我的订单</a>
             </th:block>
 
             <th:block th:if="${#session.getAttribute('user') == null}">

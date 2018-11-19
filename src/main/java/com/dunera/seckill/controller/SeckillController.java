@@ -70,22 +70,22 @@ public class SeckillController {
             SecKillOrder order = seckillService.doSecKill(user, seckillGoodId);
             model.addAttribute("user", user);
             model.addAttribute("order", order);
-            return "redirect:/seckill/myOrders.html";
+            return "redirect:/seckill/orders.html";
         } catch (GlobalException e) {
             model.addAttribute("message", e.getCodeMessage().getMessage());
             return "error";
         }
     }
 
-    @RequestMapping(value = "/myOrders.html", method = RequestMethod.GET)
-    public String myOrders(User user, Model model) {
+    @RequestMapping(value = "/orders.html", method = RequestMethod.GET)
+    public String orders(User user, Model model) {
         if (user == null || user.getUserId() == null) {
             user = SessionUtil.getUserSession(httpServletRequest);
         }
         model.addAttribute("user", user);
         List<SecKillOrder> orders = seckillService.getSecKillOrders(user);
         model.addAttribute("orders", orders);
-        return "myOrders";
+        return "orders";
     }
 
 }
