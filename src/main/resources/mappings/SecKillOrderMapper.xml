@@ -15,7 +15,7 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from secKill_order
+        from seckill_order
         where id = #{id,jdbcType=BIGINT}
     </select>
 
@@ -28,11 +28,11 @@
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
-        from secKill_order
+        from seckill_order
         where id = #{id,jdbcType=BIGINT}
     </delete>
     <insert id="insert" parameterType="com.dunera.seckill.pojo.SecKillOrder">
-        insert into secKill_order (id, user_id, goods_id, seckill_id, state, create_time)
+        insert into seckill_order (id, user_id, goods_id, seckill_id, state, create_time)
         values (#{id,jdbcType=BIGINT},
                 #{userId,jdbcType=BIGINT},
                 #{goodsId,jdbcType=BIGINT},
@@ -41,7 +41,7 @@
                 #{createTime,jdbcType=TIMESTAMP})
     </insert>
     <insert id="insertSelective" parameterType="com.dunera.seckill.pojo.SecKillOrder">
-        insert into secKill_order
+        insert into seckill_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -84,7 +84,7 @@
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.dunera.seckill.pojo.SecKillOrder">
-        update secKill_order
+        update seckill_order
         <set>
             <if test="userId != null">
                 user_id = #{userId,jdbcType=BIGINT},
@@ -105,7 +105,7 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.dunera.seckill.pojo.SecKillOrder">
-        update secKill_order
+        update seckill_order
         set user_id     = #{userId,jdbcType=BIGINT},
             goods_id    = #{goodsId,jdbcType=BIGINT},
             seckill_id  = #{seckillId,jdbcType=BIGINT},

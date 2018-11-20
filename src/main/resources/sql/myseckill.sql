@@ -44,10 +44,10 @@ INSERT INTO `goods` VALUES (3, '🍎', 5000.00, 10, 1, '大苹果', '/img/apple1
 COMMIT;
 
 -- ----------------------------
--- Table structure for secKill_order
+-- Table structure for seckill_order
 -- ----------------------------
-DROP TABLE IF EXISTS `secKill_order`;
-CREATE TABLE `secKill_order` (
+DROP TABLE IF EXISTS `seckill_order`;
+CREATE TABLE `seckill_order` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
   `goods_id` bigint(20) DEFAULT NULL COMMENT '商品id',
@@ -59,11 +59,11 @@ CREATE TABLE `secKill_order` (
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of secKill_order
+-- Records of seckill_order
 -- ----------------------------
 BEGIN;
-INSERT INTO `secKill_order` VALUES (17, 6, 1, 1, 1, '2018-11-17 08:56:20');
-INSERT INTO `secKill_order` VALUES (26, 6, 3, 3, 1, '2018-11-17 09:25:33');
+INSERT INTO `seckill_order` VALUES (17, 6, 1, 1, 1, '2018-11-17 08:56:20');
+INSERT INTO `seckill_order` VALUES (26, 6, 3, 3, 1, '2018-11-17 09:25:33');
 COMMIT;
 
 -- ----------------------------
