@@ -19,7 +19,7 @@
         select
         <include refid="Base_Column_List"/>
         from seckill_detail
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT} for update
     </select>
 
     <select id="selectValidSecKills" resultMap="BaseResultMap">

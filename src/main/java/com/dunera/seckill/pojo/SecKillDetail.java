@@ -14,7 +14,7 @@ public class SecKillDetail implements Serializable {
 
     private BigDecimal seckillPrice;
 
-    private Integer stock;
+    private volatile Integer stock;
 
     private Date createTime;
 

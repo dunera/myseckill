@@ -12,6 +12,7 @@ import com.dunera.seckill.vo.SecKillGoodDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,8 @@ public class SeckillServiceImpl implements SeckillService {
     private SecKillOrderMapper secKillOrderMapper;
 
     @Override
-    public SecKillOrder doSecKill(User user, Long seckillGoodId) throws GlobalException {
+    @Transactional
+    public  SecKillOrder doSecKill(User user, Long seckillGoodId) throws GlobalException {
 
         /*
          * 秒杀流程
