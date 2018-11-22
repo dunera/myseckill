@@ -47,14 +47,6 @@ spring:
         wall:
           enabled: true
           db-type: mysql
-  redis: #redis 配置
-    database: 8
-    host: 127.0.0.1
-    password: 123456
-    jedis:
-      pool:
-        max-idle: 10
-        min-idle: 10
 
   session: #session使用redis存储
     store-type: redis
@@ -64,3 +56,14 @@ logging:
   level:
     com.dunera.seckill: DEBUG
 
+redis: #redis 配置
+  host: 127.0.0.1
+  port: 16379
+  password: 123456
+  timeout: 10
+  database: 0
+  pool:
+    max-total: 8
+    max-idle: 8
+    max-wait: 50
+    min-idle: 1
