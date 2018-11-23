@@ -68,6 +68,11 @@ public class SecKillController {
             user = SessionUtil.getUserSession(httpServletRequest);
         }
         try {
+            SecKillOrder secKillOrder = seckillService.getSecKillOrder(user.getUserId(), secKillGoodId);
+            if (secKillOrder != null) {
+                throw new GlobalException(ErrorMessage.SEK_REPEAT_ORDER);
+            }
+
             boolean stockEnough = seckillService.validSecKillStatus(secKillGoodId);
             if (!stockEnough) {
                 throw new GlobalException(ErrorMessage.SEK_STOCK_NOT_ENOUGH);

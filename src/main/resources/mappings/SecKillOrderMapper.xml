@@ -26,6 +26,14 @@
         where user_id = #{userId,jdbcType=BIGINT}
     </select>
 
+
+    <select id="getOrderByUserAndGood" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from seckill_order
+        where user_id = #{arg0,jdbcType=BIGINT} and goods_id = #{arg1,jdbcType=BIGINT}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete
         from seckill_order

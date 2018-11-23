@@ -11,7 +11,6 @@ import com.dunera.seckill.service.SecKillService;
 import com.dunera.seckill.vo.SecKillGoodDetailVo;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +37,6 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     @Override
     @Transactional(rollbackFor = GlobalException.class)
     public SecKillOrder doSecKill(User user, Long secKillGoodId) throws GlobalException {
-
         SecKillInfo secKillInfo = secKillInfoMapper.selectByPrimaryKey(secKillGoodId);
         SecKillOrder order;
         try {
@@ -47,8 +45,8 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
             secKillInfo.setStock(secKillInfo.getStock() - 1);
             stockCountCache.computeIfPresent(secKillGoodId, (k, v) -> v--);
             secKillInfoMapper.updateByPrimaryKey(secKillInfo);
-        } catch (DuplicateKeyException e) {
-            throw new GlobalException(ErrorMessage.SEK_REPEAT_ORDER);
+        } catch (Exception e) {
+            throw new GlobalException(ErrorMessage.SEK_ENDED);
         }
         return order;
     }
@@ -87,6 +85,11 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     @Override
     public List<SecKillOrder> getSecKillOrders(User user) {
         return secKillOrderMapper.selectUserOrders(user);
+    }
+
+    @Override
+    public SecKillOrder getSecKillOrder(Long userId, Long goodsId) {
+        return secKillOrderMapper.getOrderByUserAndGood(userId, goodsId);
     }
 
     @Override
@@ -130,7 +133,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     }
 
     @Override
-    public void updateStockCache(){
+    public void updateStockCache() {
         secKillInfoMapper.selectValidSecKills().forEach(e -> stockCountCache.put(e.getId(), e.getStock()));
     }
 }

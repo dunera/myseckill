@@ -22,4 +22,6 @@ public interface SecKillOrderMapper {
     int updateByPrimaryKey(SecKillOrder record);
 
     List<SecKillOrder> selectUserOrders(User user);
+
+    SecKillOrder getOrderByUserAndGood(Long userId, Long goodsId);
 }
