@@ -31,7 +31,7 @@
         select
         <include refid="Base_Column_List"/>
         from seckill_order
-        where user_id = #{arg0,jdbcType=BIGINT} and goods_id = #{arg1,jdbcType=BIGINT}
+        where user_id = #{userId,jdbcType=BIGINT} and goods_id = #{goodsId,jdbcType=BIGINT}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

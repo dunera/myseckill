@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GoodsMapper {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(Goods record);
@@ -16,4 +17,5 @@ public interface GoodsMapper {
     int updateByPrimaryKeySelective(Goods record);
 
     int updateByPrimaryKey(Goods record);
+
 }

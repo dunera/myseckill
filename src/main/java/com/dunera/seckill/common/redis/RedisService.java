@@ -1,5 +1,7 @@
 package com.dunera.seckill.common.redis;
 
+import com.dunera.seckill.utils.SerializeUtil;
+import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -10,7 +12,7 @@ import redis.clients.jedis.JedisPool;
  * @date 2018/11/22
  */
 @Service
-public class RedisService {
+public class RedisService<T> {
 
     @Autowired
     private JedisPool jedisPool;
@@ -18,13 +20,38 @@ public class RedisService {
     /**
      * 设置值
      */
-    public String set(String key, String value) {
-        try (Jedis jedis = jedisPool.getResource()) {
-            return jedis.set(key, value);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public boolean set(String prefix, String key, T value) {
+        String relKey = key;
+        if (!Strings.isNullOrEmpty(prefix)) {
+            relKey = prefix + key;
         }
-        return null;
+        return set(relKey, value);
+    }
+
+    /**
+     * 设置值
+     */
+    public boolean set(String key, T value) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            String valueStr = SerializeUtil.beanToString(value);
+            if (!Strings.isNullOrEmpty(valueStr)) {
+                jedis.set(key, valueStr);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 从redis连接池获取redis实例
+     */
+    public T get(String prefix, String key, Class<T> clazz) {
+        String relKey = key;
+        if (!Strings.isNullOrEmpty(prefix)) {
+            relKey = prefix + key;
+        }
+        String objStr = get(relKey);
+        return SerializeUtil.stringToBean(objStr, clazz);
     }
 
     /**
@@ -33,35 +60,65 @@ public class RedisService {
     public String get(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
             return jedis.get(key);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return null;
     }
 
     /**
-     * 键是否存在于redis中
+     * 从redis连接池获取redis实例
+     */
+    public String get(String prefix, String key) {
+        String relKey = key;
+        if (!Strings.isNullOrEmpty(prefix)) {
+            relKey = prefix + key;
+        }
+        return get(relKey);
+    }
+
+    /**
+     * 判断键值是否存在
      */
     public boolean exists(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
             return jedis.exists(key);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return false;
     }
 
     /**
-     * 键是否存在于redis中
+     * 移除值
      */
     public boolean remove(String key) {
         try (Jedis jedis = jedisPool.getResource()) {
-            jedis.del(key);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
+            long ret = jedis.del(key);
+            return ret > 0;
         }
-        return false;
+    }
+
+
+    /**
+     * redis incr
+     * 如果 key 不存在，那么 key 的值会先被初始化为0 ，然后再执行 incr 操作
+     */
+    public Long incr(String prefix, String key) {
+        String relKey = key;
+        if (!Strings.isNullOrEmpty(prefix)) {
+            relKey = prefix + key;
+        }
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.incr(relKey);
+        }
+    }
+
+    /**
+     * redis decr
+     */
+    public Long decr(String prefix, String key) {
+        String relKey = key;
+        if (!Strings.isNullOrEmpty(prefix)) {
+            relKey = prefix + key;
+        }
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.decr(relKey);
+        }
     }
 
 }

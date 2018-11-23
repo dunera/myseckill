@@ -53,8 +53,7 @@ spring:
 server:
   port: 8081
 logging:
-  level:
-    com.dunera.seckill: DEBUG
+  config: classpath:logback-spring.xml
 
 redis: #redis 配置
   host: 127.0.0.1
