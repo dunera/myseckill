@@ -6,19 +6,19 @@ package com.dunera.seckill.exception;
  */
 public class GlobalException extends RuntimeException {
 
-    private CodeMessage codeMessage;
+    private ErrorMessage errorMessage;
 
-    public GlobalException(CodeMessage message) {
+    public GlobalException(ErrorMessage message) {
         super(message.toString());
-        this.codeMessage = message;
+        this.errorMessage = message;
     }
 
-    public GlobalException(String message, Throwable cause, CodeMessage codeMessage) {
+    public GlobalException(String message, Throwable cause, ErrorMessage errorMessage) {
         super(message, cause);
-        this.codeMessage = codeMessage;
+        this.errorMessage = errorMessage;
     }
 
-    public CodeMessage getCodeMessage() {
-        return codeMessage;
+    public ErrorMessage getErrorMessage() {
+        return errorMessage;
     }
 }

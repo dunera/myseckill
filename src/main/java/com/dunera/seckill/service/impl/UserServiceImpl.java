@@ -18,11 +18,11 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public void addUser(String userName, String password, String phoneNumer, int avatar) {
+    public void addUser(String userName, String password, String phoneNum, int avatar) {
         User user = new User();
         user.setUserName(userName);
         user.setMd5password(password);
-        user.setphoneNumber(phoneNumer);
+        user.setphoneNumber(phoneNum);
         user.setAvater(avatar);
         userMapper.insert(user);
     }

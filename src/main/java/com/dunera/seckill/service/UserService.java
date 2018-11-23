@@ -8,7 +8,7 @@ import com.dunera.seckill.pojo.User;
  */
 public interface UserService {
 
-    void addUser(String userName, String password, String phoneNumer, int avatar);
+    void addUser(String userName, String password, String phoneNum, int avatar);
 
     boolean checkPassword(String userName, String password);
 

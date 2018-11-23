@@ -16,7 +16,7 @@ public class RedisService {
     private JedisPool jedisPool;
 
     /**
-     * 从redis连接池获取redis实例
+     * 设置值
      */
     public String set(String key, String value) {
         try (Jedis jedis = jedisPool.getResource()) {
@@ -25,6 +25,43 @@ public class RedisService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 从redis连接池获取redis实例
+     */
+    public String get(String key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 键是否存在于redis中
+     */
+    public boolean exists(String key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            return jedis.exists(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * 键是否存在于redis中
+     */
+    public boolean remove(String key) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.del(key);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

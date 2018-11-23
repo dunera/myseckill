@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class SecKillDetail implements Serializable {
+public class SecKillInfo implements Serializable {
 
     private Long id;
 
@@ -117,7 +117,7 @@ public class SecKillDetail implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        SecKillDetail other = (SecKillDetail) that;
+        SecKillInfo other = (SecKillInfo) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getGoodsId() == null ? other.getGoodsId() == null : this.getGoodsId().equals(other.getGoodsId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))

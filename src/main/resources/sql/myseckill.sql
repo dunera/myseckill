@@ -67,10 +67,10 @@ INSERT INTO `seckill_order` VALUES (26, 6, 3, 3, 1, '2018-11-17 09:25:33');
 COMMIT;
 
 -- ----------------------------
--- Table structure for seckill_detail
+-- Table structure for seckill_info
 -- ----------------------------
-DROP TABLE IF EXISTS `seckill_detail`;
-CREATE TABLE `seckill_detail` (
+DROP TABLE IF EXISTS `seckill_info`;
+CREATE TABLE `seckill_info` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `goods_id` bigint(20) DEFAULT NULL COMMENT '商品id',
   `name` varchar(120) DEFAULT NULL COMMENT '秒杀商品名称',
@@ -84,12 +84,12 @@ CREATE TABLE `seckill_detail` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
--- Records of seckill_detail
+-- Records of seckill_info
 -- ----------------------------
 BEGIN;
-INSERT INTO `seckill_detail` VALUES (1, 1, 'ipad', 100.00, 1000, '2018-11-17 15:54:31', '2018-11-17 16:28:51', '2018-11-17 16:28:58', 1);
-INSERT INTO `seckill_detail` VALUES (2, 2, '苹果', 200.00, 10, '2018-11-16 16:45:29', '2018-11-16 16:35:25', '2018-11-16 16:35:29', 1);
-INSERT INTO `seckill_detail` VALUES (3, 3, '🍎', 300.00, 20, '2018-11-16 16:45:57', '2018-11-17 16:45:47', '2018-11-22 16:45:52', 1);
+INSERT INTO `seckill_info` VALUES (1, 1, 'ipad', 100.00, 1000, '2018-11-17 15:54:31', '2018-11-17 16:28:51', '2018-11-17 16:28:58', 1);
+INSERT INTO `seckill_info` VALUES (2, 2, '苹果', 200.00, 10, '2018-11-16 16:45:29', '2018-11-16 16:35:25', '2018-11-16 16:35:29', 1);
+INSERT INTO `seckill_info` VALUES (3, 3, '🍎', 300.00, 20, '2018-11-16 16:45:57', '2018-11-17 16:45:47', '2018-11-22 16:45:52', 1);
 COMMIT;
 
 -- ----------------------------

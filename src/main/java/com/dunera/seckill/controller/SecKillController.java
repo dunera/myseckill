@@ -1,10 +1,11 @@
 package com.dunera.seckill.controller;
 
+import com.dunera.seckill.exception.ErrorMessage;
 import com.dunera.seckill.exception.GlobalException;
-import com.dunera.seckill.pojo.SecKillDetail;
+import com.dunera.seckill.pojo.SecKillInfo;
 import com.dunera.seckill.pojo.SecKillOrder;
 import com.dunera.seckill.pojo.User;
-import com.dunera.seckill.service.SeckillService;
+import com.dunera.seckill.service.SecKillService;
 import com.dunera.seckill.utils.SessionUtil;
 import com.dunera.seckill.vo.SecKillGoodDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,55 +25,59 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/seckill")
-public class SeckillController {
+public class SecKillController {
 
     @Autowired
     HttpServletRequest httpServletRequest;
 
     @Autowired
-    private SeckillService seckillService;
+    private SecKillService seckillService;
 
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public String list(Model model) {
-        List<SecKillDetail> list = seckillService.getSecKillDetails();
+        seckillService.updateStockCache();
+        List<SecKillInfo> list = seckillService.getSecKillInfos();
         model.addAttribute("list", list);
         return "list";
     }
 
-    @RequestMapping(value = "/detail/{seckillGoodId}", method = RequestMethod.GET)
-    public String detail(@PathVariable("seckillGoodId") Long seckillGoodId, Model model) {
-        if (seckillGoodId == null) {
+    @RequestMapping(value = "/detail/{secKillGoodId}", method = RequestMethod.GET)
+    public String detail(@PathVariable("secKillGoodId") Long secKillGoodId, Model model) {
+        if (secKillGoodId == null) {
             return "redirect:/seckill/list.html";
         }
 
         User user = SessionUtil.getUserSession(httpServletRequest);
         model.addAttribute("user", user);
-        SecKillGoodDetailVo seckillGood = seckillService.getSecKillGoodDetail(seckillGoodId);
+        SecKillGoodDetailVo secKillGoodDetail = seckillService.getSecKillGoodDetail(secKillGoodId);
 
-        if (seckillGood == null) {
+        if (secKillGoodDetail == null) {
             return "forward:/seckill/list.html";
         }
-        int seckillStatus = seckillService.getSecKillStatus(seckillGood);
-        int remainSeconds = seckillService.getRemainSeconds(seckillGood);
-        model.addAttribute("seckillStatus", seckillStatus);
+        int secKillStatus = seckillService.getSecKillStatus(secKillGoodDetail);
+        int remainSeconds = seckillService.getRemainSeconds(secKillGoodDetail);
+        model.addAttribute("secKillStatus", secKillStatus);
         model.addAttribute("remainSeconds", remainSeconds);
-        model.addAttribute("seckillGood", seckillGood);
+        model.addAttribute("seckillGood", secKillGoodDetail);
         return "detail";
     }
 
-
     @RequestMapping(value = "/doSecKill.html", method = RequestMethod.POST)
-    public String doSecKill(@RequestParam("seckillGoodId") Long seckillGoodId, User user, Model model) {
+    public String doSecKill(@RequestParam("secKillGoodId") Long secKillGoodId, User user, Model model) {
         if (user == null || user.getUserId() == null) {
             user = SessionUtil.getUserSession(httpServletRequest);
         }
         try {
-            SecKillOrder order = seckillService.doSecKill(user, seckillGoodId);
+            boolean stockEnough = seckillService.validSecKillStatus(secKillGoodId);
+            if (!stockEnough) {
+                throw new GlobalException(ErrorMessage.SEK_STOCK_NOT_ENOUGH);
+            }
+            SecKillOrder order = seckillService.doSecKill(user, secKillGoodId);
             model.addAttribute("user", user);
             model.addAttribute("order", order);
             return "redirect:/seckill/orders.html";
         } catch (GlobalException e) {
-            model.addAttribute("message", e.getCodeMessage().getMessage());
+            model.addAttribute("message", e.getErrorMessage().getMessage());
             return "error";
         }
     }
