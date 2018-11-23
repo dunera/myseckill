@@ -13,8 +13,8 @@
         <result column="is_active" property="isActive" jdbcType="BIT"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, goods_id, `name`, seckill_price, stock, create_time, start_time, end_time, is_active
-  </sql>
+        id, goods_id, `name`, seckill_price, stock, create_time, start_time, end_time, is_active
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
@@ -22,34 +22,55 @@
         where id = #{id,jdbcType=BIGINT} for update
     </select>
 
-    <select id="selectValidSecKills" resultMap="BaseResultMap">
+    <select id="selectSecKillInfos" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         from seckill_info
-        where is_active = 1
+        where is_active = #{isActive,jdbcType=BIGINT}
     </select>
 
     <select id="selectSecKillGoodDetails" resultType="com.dunera.seckill.vo.SecKillGoodDetailVo">
-    select
-      sd.id as secKillId, sd.goods_id, sd.`name`, g.price ,g.image, g.details ,sd.seckill_price, sd.stock as secKillStock, sd.start_time, sd.end_time, sd.is_active
-      from seckill_info sd inner join goods g on sd.goods_id = g.id
-      where sd.id = #{id,jdbcType = BIGINT}
-  </select>
+        select sd.id    as secKillId,
+               sd.goods_id,
+               sd.`name`,
+               g.price,
+               g.image,
+               g.details,
+               sd.seckill_price,
+               sd.stock as secKillStock,
+               sd.start_time,
+               sd.end_time,
+               sd.is_active
+        from seckill_info sd
+                 inner join goods g on sd.goods_id = g.id
+        where sd.id = #{id,jdbcType = BIGINT}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from seckill_info
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
+        delete
+        from seckill_info
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
     <insert id="insert" parameterType="com.dunera.seckill.pojo.SecKillInfo">
-    insert into seckill_info (id, goods_id, name,
-      seckill_price, stock, create_time, 
-      start_time, end_time, is_active
-      )
-    values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{seckillPrice,jdbcType=DECIMAL}, #{stock,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isActive,jdbcType=BIT}
-      )
-  </insert>
+        insert into seckill_info (id,
+                                  goods_id,
+                                  name,
+                                  seckill_price,
+                                  stock,
+                                  create_time,
+                                  start_time,
+                                  end_time,
+                                  is_active)
+        values (#{id,jdbcType=BIGINT},
+                #{goodsId,jdbcType=BIGINT},
+                #{name,jdbcType=VARCHAR},
+                #{seckillPrice,jdbcType=DECIMAL},
+                #{stock,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP},
+                #{startTime,jdbcType=TIMESTAMP},
+                #{endTime,jdbcType=TIMESTAMP},
+                #{isActive,jdbcType=BIT})
+    </insert>
     <insert id="insertSelective" parameterType="com.dunera.seckill.pojo.SecKillInfo">
         insert into seckill_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -142,15 +163,15 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.dunera.seckill.pojo.SecKillInfo">
-    update seckill_info
-    set goods_id = #{goodsId,jdbcType=BIGINT},
-      name = #{name,jdbcType=VARCHAR},
-      seckill_price = #{seckillPrice,jdbcType=DECIMAL},
-      stock = #{stock,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      is_active = #{isActive,jdbcType=BIT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        update seckill_info
+        set goods_id      = #{goodsId,jdbcType=BIGINT},
+            name          = #{name,jdbcType=VARCHAR},
+            seckill_price = #{seckillPrice,jdbcType=DECIMAL},
+            stock         = #{stock,jdbcType=INTEGER},
+            create_time   = #{createTime,jdbcType=TIMESTAMP},
+            start_time    = #{startTime,jdbcType=TIMESTAMP},
+            end_time      = #{endTime,jdbcType=TIMESTAMP},
+            is_active     = #{isActive,jdbcType=BIT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 </mapper>

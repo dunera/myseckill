@@ -23,6 +23,6 @@ public interface SecKillInfoMapper {
 
     int updateByPrimaryKey(SecKillInfo record);
 
-    List<SecKillInfo> selectValidSecKills();
+    List<SecKillInfo> selectSecKillInfos(int valid);
 
 }

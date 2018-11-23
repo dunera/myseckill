@@ -60,7 +60,12 @@ public interface SecKillService {
     int getRemainSeconds(SecKillGoodDetailVo detailVo);
 
     /**
-     * 更新库存缓存剩余时间
+     * 更新库存缓存
      */
     void updateStockCache();
+
+    /**
+     * 更新列表缓存
+     */
+    void updateSecKillInfos();
 }

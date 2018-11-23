@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author lyx
@@ -26,6 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class SecKillServiceImpl implements SecKillService, InitializingBean {
 
+    public static final int ACTIVE = 1;
+
     @Autowired
     private SecKillInfoMapper secKillInfoMapper;
 
@@ -33,6 +37,8 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     private SecKillOrderMapper secKillOrderMapper;
 
     private Map<Long, Integer> stockCountCache = new ConcurrentHashMap<>();
+
+    private List<SecKillInfo> secKillInfoCache = new CopyOnWriteArrayList<>();
 
     @Override
     @Transactional(rollbackFor = GlobalException.class)
@@ -45,6 +51,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
             secKillInfo.setStock(secKillInfo.getStock() - 1);
             stockCountCache.computeIfPresent(secKillGoodId, (k, v) -> v--);
             secKillInfoMapper.updateByPrimaryKey(secKillInfo);
+            updateSecKillInfos();
         } catch (Exception e) {
             throw new GlobalException(ErrorMessage.SEK_ENDED);
         }
@@ -69,6 +76,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
         order.setUserId(user.getUserId());
         order.setCreateTime(new Date());
         secKillOrderMapper.insert(order);
+        updateSecKillInfos();
         return order;
     }
 
@@ -79,7 +87,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
 
     @Override
     public List<SecKillInfo> getSecKillInfos() {
-        return secKillInfoMapper.selectValidSecKills();
+        return secKillInfoCache;
     }
 
     @Override
@@ -130,10 +138,21 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         updateStockCache();
+        updateSecKillInfos();
     }
 
     @Override
     public void updateStockCache() {
-        secKillInfoMapper.selectValidSecKills().forEach(e -> stockCountCache.put(e.getId(), e.getStock()));
+        secKillInfoMapper.selectSecKillInfos(ACTIVE).forEach(e -> stockCountCache.put(e.getId(), e.getStock()));
     }
+
+    @Override
+    public void updateSecKillInfos() {
+        List<SecKillInfo> secKillInfos = secKillInfoMapper.selectSecKillInfos(ACTIVE);
+        Optional<List<SecKillInfo>> infos = Optional.ofNullable(secKillInfos);
+        infos.ifPresent(s -> secKillInfoCache.addAll(s));
+        secKillInfoCache = infos.orElse(new CopyOnWriteArrayList<>());
+    }
+
+
 }
