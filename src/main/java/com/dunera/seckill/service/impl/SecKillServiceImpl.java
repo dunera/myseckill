@@ -76,7 +76,6 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
         order.setUserId(user.getUserId());
         order.setCreateTime(new Date());
         secKillOrderMapper.insert(order);
-        updateSecKillInfos();
         return order;
     }
 
@@ -153,6 +152,5 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
         infos.ifPresent(s -> secKillInfoCache.addAll(s));
         secKillInfoCache = infos.orElse(new CopyOnWriteArrayList<>());
     }
-
 
 }
