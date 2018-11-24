@@ -1,5 +1,7 @@
 package com.dunera.seckill.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.dunera.seckill.common.redis.RedisHandler;
 import com.dunera.seckill.dao.SecKillInfoMapper;
 import com.dunera.seckill.dao.SecKillOrderMapper;
 import com.dunera.seckill.exception.ErrorMessage;
@@ -9,6 +11,8 @@ import com.dunera.seckill.pojo.SecKillOrder;
 import com.dunera.seckill.pojo.User;
 import com.dunera.seckill.service.SecKillService;
 import com.dunera.seckill.vo.SecKillGoodDetailVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author lyx
@@ -28,6 +28,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 public class SecKillServiceImpl implements SecKillService, InitializingBean {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     public static final int ACTIVE = 1;
 
     @Autowired
@@ -36,20 +37,31 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     @Autowired
     private SecKillOrderMapper secKillOrderMapper;
 
-    private Map<Long, Integer> stockCountCache = new ConcurrentHashMap<>();
+    @Autowired
+    private RedisHandler redisHandler;
 
-    private List<SecKillInfo> secKillInfoCache = new CopyOnWriteArrayList<>();
+    public static final String STOCK_COUNT = "stock_count:";
+    public static final String SEC_KILL_INFO = "sec_kill_info:";
 
     @Override
     @Transactional(rollbackFor = GlobalException.class)
     public SecKillOrder doSecKill(User user, Long secKillGoodId) throws GlobalException {
+
+        SecKillOrder secKillOrder = getSecKillOrder(user.getUserId(), secKillGoodId);
+
+        if (secKillOrder != null) {
+            throw new GlobalException(ErrorMessage.SEK_REPEAT_ORDER);
+        }
+        validSecKillStatus(secKillGoodId);
+
         SecKillInfo secKillInfo = secKillInfoMapper.selectByPrimaryKey(secKillGoodId);
         SecKillOrder order;
         try {
             order = createSecKillOrder(user, secKillInfo);
             //减库存
+            logger.info("当前mysql-secKillInfo:stock:{}", secKillInfo.getStock());
             secKillInfo.setStock(secKillInfo.getStock() - 1);
-            stockCountCache.computeIfPresent(secKillGoodId, (k, v) -> v--);
+            redisHandler.decr(STOCK_COUNT, String.valueOf(secKillGoodId));
             secKillInfoMapper.updateByPrimaryKey(secKillInfo);
             updateSecKillInfos();
         } catch (Exception e) {
@@ -60,7 +72,8 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
 
     @Override
     public boolean validSecKillStatus(Long secKillGoodId) throws GlobalException {
-        int stock = stockCountCache.get(secKillGoodId);
+        Integer stock = redisHandler.get(STOCK_COUNT, String.valueOf(secKillGoodId), Integer.class);
+        logger.info("redis--count:{}", stock);
         if (stock <= 0) {
             throw new GlobalException(ErrorMessage.SEK_STOCK_NOT_ENOUGH);
         }
@@ -86,7 +99,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
 
     @Override
     public List<SecKillInfo> getSecKillInfos() {
-        return secKillInfoCache;
+        return JSONArray.parseArray(redisHandler.get("", SEC_KILL_INFO), SecKillInfo.class);
     }
 
     @Override
@@ -142,15 +155,13 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
 
     @Override
     public void updateStockCache() {
-        secKillInfoMapper.selectSecKillInfos(ACTIVE).forEach(e -> stockCountCache.put(e.getId(), e.getStock()));
+        secKillInfoMapper.selectSecKillInfos(ACTIVE).forEach(e -> redisHandler.set(STOCK_COUNT, String.valueOf(e.getId()), e.getStock()));
     }
 
     @Override
     public void updateSecKillInfos() {
         List<SecKillInfo> secKillInfos = secKillInfoMapper.selectSecKillInfos(ACTIVE);
-        Optional<List<SecKillInfo>> infos = Optional.ofNullable(secKillInfos);
-        infos.ifPresent(s -> secKillInfoCache.addAll(s));
-        secKillInfoCache = infos.orElse(new CopyOnWriteArrayList<>());
+        redisHandler.set(SEC_KILL_INFO, secKillInfos);
     }
 
 }

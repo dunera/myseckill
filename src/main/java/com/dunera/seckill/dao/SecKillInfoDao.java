@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public class SecKillInfoDao {
 
     @Autowired
-    private RedisHandler<SecKillInfo> redisHandler;
+    private RedisHandler redisHandler;
 
     public static final String SEC_KILL_INFO = "sec_kill_info:";
 
@@ -24,4 +24,6 @@ public class SecKillInfoDao {
         }
         return 0;
     }
+
+
 }

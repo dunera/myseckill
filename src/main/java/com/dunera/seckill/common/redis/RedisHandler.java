@@ -12,7 +12,7 @@ import redis.clients.jedis.JedisPool;
  * @date 2018/11/22
  */
 @Repository
-public class RedisHandler<T> {
+public class RedisHandler {
 
     @Autowired
     private JedisPool jedisPool;
@@ -20,7 +20,7 @@ public class RedisHandler<T> {
     /**
      * 设置值
      */
-    public boolean set(String prefix, String key, T value) {
+    public <T> boolean set(String prefix, String key, T value) {
         String relKey = key;
         if (!Strings.isNullOrEmpty(prefix)) {
             relKey = prefix + key;
@@ -31,7 +31,7 @@ public class RedisHandler<T> {
     /**
      * 设置值
      */
-    public boolean set(String key, T value) {
+    public <T> boolean set(String key, T value) {
         try (Jedis jedis = jedisPool.getResource()) {
             String valueStr = SerializeUtil.beanToString(value);
             if (!Strings.isNullOrEmpty(valueStr)) {
@@ -45,7 +45,7 @@ public class RedisHandler<T> {
     /**
      * 从redis连接池获取redis实例
      */
-    public T get(String prefix, String key, Class<T> clazz) {
+    public <T> T get(String prefix, String key, Class<T> clazz) {
         String relKey = key;
         if (!Strings.isNullOrEmpty(prefix)) {
             relKey = prefix + key;

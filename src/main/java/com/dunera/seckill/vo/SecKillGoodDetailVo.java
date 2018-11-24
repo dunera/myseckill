@@ -1,5 +1,6 @@
 package com.dunera.seckill.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -7,7 +8,9 @@ import java.util.Date;
  * @author lyx
  * @date 2018/11/17
  */
-public class SecKillGoodDetailVo {
+public class SecKillGoodDetailVo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Long secKillId;
 

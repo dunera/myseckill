@@ -8,6 +8,8 @@ import com.dunera.seckill.pojo.User;
 import com.dunera.seckill.service.SecKillService;
 import com.dunera.seckill.utils.SessionUtil;
 import com.dunera.seckill.vo.SecKillGoodDetailVo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/seckill")
 public class SecKillController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     HttpServletRequest httpServletRequest;
@@ -68,15 +72,6 @@ public class SecKillController {
             user = SessionUtil.getUserSession(httpServletRequest);
         }
         try {
-            SecKillOrder secKillOrder = seckillService.getSecKillOrder(user.getUserId(), secKillGoodId);
-            if (secKillOrder != null) {
-                throw new GlobalException(ErrorMessage.SEK_REPEAT_ORDER);
-            }
-
-            boolean stockEnough = seckillService.validSecKillStatus(secKillGoodId);
-            if (!stockEnough) {
-                throw new GlobalException(ErrorMessage.SEK_STOCK_NOT_ENOUGH);
-            }
             SecKillOrder order = seckillService.doSecKill(user, secKillGoodId);
             model.addAttribute("user", user);
             model.addAttribute("order", order);
