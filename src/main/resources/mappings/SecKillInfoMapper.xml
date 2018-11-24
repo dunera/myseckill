@@ -12,6 +12,7 @@
         <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
         <result column="is_active" property="isActive" jdbcType="BIT"/>
     </resultMap>
+    <!--<cache-ref namespace="com.dunera.seckill.dao.SecKillOrderMapper"/>-->
     <sql id="Base_Column_List">
         id, goods_id, `name`, seckill_price, stock, create_time, start_time, end_time, is_active
     </sql>

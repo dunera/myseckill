@@ -9,6 +9,9 @@
         <result column="state" property="state" jdbcType="SMALLINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <!--<cache eviction="LRU" blocking="false" flushInterval="5000" readOnly="false"/>-->
+
     <sql id="Base_Column_List">
         id, user_id, goods_id, seckill_id, state, create_time
     </sql>
