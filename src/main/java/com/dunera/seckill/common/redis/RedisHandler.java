@@ -121,4 +121,15 @@ public class RedisHandler {
         }
     }
 
+    public Jedis getResource() {
+        return jedisPool.getResource();
+    }
+
+    public void closeResource(Jedis jedis) {
+        // 将连接放回池中
+        if (jedis != null) {
+            jedis.close();
+        }
+    }
+
 }

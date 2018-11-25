@@ -35,6 +35,11 @@ public interface SecKillService {
     SecKillOrder createSecKillOrder(User user, SecKillInfo secKillInfo);
 
     /**
+     * 减库存
+     */
+    boolean decrStock(Long goodsId);
+
+    /**
      * 获取秒杀订单
      */
     List<SecKillOrder> getSecKillOrders(User user);
@@ -43,11 +48,6 @@ public interface SecKillService {
      * 根据用户id和商品id获取秒杀订单
      */
     SecKillOrder getSecKillOrder(Long userId, Long goodsId);
-
-    /**
-     * 校验秒杀订单状态
-     */
-    boolean validSecKillStatus(Long secKillGoodId);
 
     /**
      * 获取秒杀状态

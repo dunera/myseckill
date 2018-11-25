@@ -52,32 +52,19 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
         if (secKillOrder != null) {
             throw new GlobalException(ErrorMessage.SEK_REPEAT_ORDER);
         }
-        validSecKillStatus(secKillGoodId);
-
-        SecKillInfo secKillInfo = secKillInfoMapper.selectByPrimaryKey(secKillGoodId);
-        SecKillOrder order;
+        boolean success = decrStock(secKillGoodId);
+        if (!success) {
+            throw new GlobalException(ErrorMessage.SEK_STOCK_NOT_ENOUGH);
+        }
         try {
-            order = createSecKillOrder(user, secKillInfo);
-            //减库存
+            SecKillInfo secKillInfo = secKillInfoMapper.selectByPrimaryKey(secKillGoodId);
+            SecKillOrder order = createSecKillOrder(user, secKillInfo);
             logger.info("当前mysql-secKillInfo:stock:{}", secKillInfo.getStock());
-            secKillInfo.setStock(secKillInfo.getStock() - 1);
-            redisHandler.decr(STOCK_COUNT, String.valueOf(secKillGoodId));
-            secKillInfoMapper.updateByPrimaryKey(secKillInfo);
             updateSecKillInfos();
+            return order;
         } catch (Exception e) {
             throw new GlobalException(ErrorMessage.SEK_ENDED);
         }
-        return order;
-    }
-
-    @Override
-    public boolean validSecKillStatus(Long secKillGoodId) throws GlobalException {
-        Integer stock = redisHandler.get(STOCK_COUNT, String.valueOf(secKillGoodId), Integer.class);
-        logger.info("redis--count:{}", stock);
-        if (stock <= 0) {
-            throw new GlobalException(ErrorMessage.SEK_STOCK_NOT_ENOUGH);
-        }
-        return true;
     }
 
     @Override
@@ -90,6 +77,20 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
         order.setCreateTime(new Date());
         secKillOrderMapper.insert(order);
         return order;
+    }
+
+    @Override
+    public boolean decrStock(Long goodsId) {
+        Integer stock = redisHandler.get(STOCK_COUNT, String.valueOf(goodsId), Integer.class);
+        logger.info("redis--count:{}", stock);
+        if (stock <= 0) {
+            return false;
+        }
+        int ret = secKillInfoMapper.decrStock(goodsId);
+        if (ret > 0){
+            redisHandler.decr(STOCK_COUNT, String.valueOf(goodsId));
+        }
+        return ret > 0;
     }
 
     @Override

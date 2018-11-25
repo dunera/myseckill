@@ -175,4 +175,10 @@
             is_active     = #{isActive,jdbcType=BIT}
         where id = #{id,jdbcType=BIGINT}
     </update>
+
+    <update id="decrStock" parameterType="java.lang.Long">
+        update seckill_info
+          set stock = stock - 1
+        where id = #{id,jdbcType=BIGINT} and stock > 0
+    </update>
 </mapper>

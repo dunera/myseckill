@@ -1,7 +1,7 @@
 package com.dunera.seckill.dao;
 
-import com.dunera.seckill.vo.SecKillGoodDetailVo;
 import com.dunera.seckill.pojo.SecKillInfo;
+import com.dunera.seckill.vo.SecKillGoodDetailVo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,4 +25,5 @@ public interface SecKillInfoMapper {
 
     List<SecKillInfo> selectSecKillInfos(int valid);
 
+    int decrStock(Long goodsId);
 }
