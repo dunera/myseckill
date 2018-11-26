@@ -3,7 +3,7 @@ package com.dunera.seckill.common.redis;
 import com.dunera.seckill.utils.SerializeUtil;
 import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -11,7 +11,7 @@ import redis.clients.jedis.JedisPool;
  * @author lyx
  * @date 2018/11/22
  */
-@Repository
+@Service
 public class RedisHandler {
 
     @Autowired

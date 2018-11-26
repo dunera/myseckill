@@ -14,7 +14,7 @@
 
 #### 项目搭建与技术选型
 version1.0  
-springboot/mybatis/redis/mysql/thymeleaf
+java8/springboot/mybatis/redis/mysql/thymeleaf
 
 #### 开发步骤 
 * 表结构设计（dao层）
@@ -35,7 +35,7 @@ springboot/mybatis/redis/mysql/thymeleaf
 
   * 前端 thymeleaf/springMvc/bootstrap/jQuery/layer.js
   * 前后端分离
-  * redis缓存，分布式锁
+  * redis缓存
   * kafka消息队列
   * spring管理bean，事务，整合mybatis
   * mybatis处理dao

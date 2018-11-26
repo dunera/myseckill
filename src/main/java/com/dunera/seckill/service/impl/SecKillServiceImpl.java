@@ -48,20 +48,9 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     @Override
     @Transactional(rollbackFor = GlobalException.class)
     public SecKillOrder doSecKill(User user, Long secKillGoodId) throws GlobalException {
-
-        SecKillOrder secKillOrder = getSecKillOrder(user.getUserId(), secKillGoodId);
-
-        if (secKillOrder != null) {
-            throw new GlobalException(ErrorMessage.SEK_REPEAT_ORDER);
-        }
-        boolean success = decrStock(secKillGoodId);
-        if (!success) {
-            throw new GlobalException(ErrorMessage.SEK_STOCK_NOT_ENOUGH);
-        }
         try {
             SecKillInfo secKillInfo = secKillInfoMapper.selectByPrimaryKey(secKillGoodId);
             SecKillOrder order = createSecKillOrder(user, secKillInfo);
-            logger.info("当前mysql-secKillInfo:stock:{}", secKillInfo.getStock());
             updateSecKillInfosCache();
             return order;
         } catch (Exception e) {

@@ -1,5 +1,9 @@
 package com.dunera.seckill.controller;
 
+import com.dunera.seckill.common.rabbitmq.MQSender;
+import com.dunera.seckill.common.rabbitmq.SeckillMessage;
+import com.dunera.seckill.config.RabbitMQConfig;
+import com.dunera.seckill.exception.ErrorMessage;
 import com.dunera.seckill.exception.GlobalException;
 import com.dunera.seckill.pojo.SecKillInfo;
 import com.dunera.seckill.pojo.SecKillOrder;
@@ -36,6 +40,9 @@ public class SecKillController {
     @Autowired
     private SecKillService seckillService;
 
+    @Autowired
+    private MQSender mqSender;
+
     @RequestMapping(value = "/list.html", method = RequestMethod.GET)
     public String list(Model model) {
         seckillService.updateStockCache();
@@ -71,9 +78,21 @@ public class SecKillController {
             user = SessionUtil.getUserSession(httpServletRequest);
         }
         try {
-            SecKillOrder order = seckillService.doSecKill(user, secKillGoodId);
+            SecKillOrder secKillOrder = seckillService.getSecKillOrder(user.getUserId(), secKillGoodId);
+            if (secKillOrder != null) {
+                throw new GlobalException(ErrorMessage.SEK_REPEAT_ORDER);
+            }
+            boolean success = seckillService.decrStock(secKillGoodId);
+            if (!success) {
+                throw new GlobalException(ErrorMessage.SEK_STOCK_NOT_ENOUGH);
+            }
+            //加入消息队列处理
+            SeckillMessage message = new SeckillMessage();
+            message.setUser(user);
+            message.setGoodsId(secKillGoodId);
+            mqSender.sendMessage(RabbitMQConfig.SECKILL_QUEUE, message);
+
             model.addAttribute("user", user);
-            model.addAttribute("order", order);
             return "redirect:/seckill/orders.html";
         } catch (GlobalException e) {
             model.addAttribute("message", e.getErrorMessage().getMessage());
