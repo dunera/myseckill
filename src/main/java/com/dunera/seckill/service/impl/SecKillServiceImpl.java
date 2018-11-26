@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author lyx
@@ -42,6 +43,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
 
     public static final String STOCK_COUNT = "stock_count:";
     public static final String SEC_KILL_INFO = "sec_kill_info:";
+    public static final String SEC_KILL_GOOD_DETAIL = "sec_kill_good_detail:";
 
     @Override
     @Transactional(rollbackFor = GlobalException.class)
@@ -60,7 +62,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
             SecKillInfo secKillInfo = secKillInfoMapper.selectByPrimaryKey(secKillGoodId);
             SecKillOrder order = createSecKillOrder(user, secKillInfo);
             logger.info("当前mysql-secKillInfo:stock:{}", secKillInfo.getStock());
-            updateSecKillInfos();
+            updateSecKillInfosCache();
             return order;
         } catch (Exception e) {
             throw new GlobalException(ErrorMessage.SEK_ENDED);
@@ -87,7 +89,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
             return false;
         }
         int ret = secKillInfoMapper.decrStock(goodsId);
-        if (ret > 0){
+        if (ret > 0) {
             redisHandler.decr(STOCK_COUNT, String.valueOf(goodsId));
         }
         return ret > 0;
@@ -95,7 +97,14 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
 
     @Override
     public SecKillGoodDetailVo getSecKillGoodDetail(Long seckillId) {
-        return secKillInfoMapper.selectSecKillGoodDetails(seckillId);
+        SecKillGoodDetailVo vo = redisHandler.get(SEC_KILL_GOOD_DETAIL, String.valueOf(seckillId), SecKillGoodDetailVo.class);
+        Optional<SecKillGoodDetailVo> optional = Optional.ofNullable(vo);
+        if (optional.isPresent()) {
+            return vo;
+        }
+        vo = secKillInfoMapper.selectSecKillGoodDetails(seckillId);
+        redisHandler.set(SEC_KILL_GOOD_DETAIL, String.valueOf(seckillId), vo);
+        return vo;
     }
 
     @Override
@@ -151,7 +160,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         updateStockCache();
-        updateSecKillInfos();
+        updateSecKillInfosCache();
     }
 
     @Override
@@ -160,7 +169,7 @@ public class SecKillServiceImpl implements SecKillService, InitializingBean {
     }
 
     @Override
-    public void updateSecKillInfos() {
+    public void updateSecKillInfosCache() {
         List<SecKillInfo> secKillInfos = secKillInfoMapper.selectSecKillInfos(ACTIVE);
         redisHandler.set(SEC_KILL_INFO, secKillInfos);
     }

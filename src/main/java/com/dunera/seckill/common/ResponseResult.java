@@ -25,6 +25,15 @@ public class ResponseResult<T> {
         this.data = data;
     }
 
+    public ResponseResult(boolean success, ErrorMessage errorMessage, T data) {
+        this.success = success;
+        this.data = data;
+        if (errorMessage != null) {
+            this.message = errorMessage.getMessage();
+            this.code = errorMessage.getCode();
+        }
+    }
+
     public ResponseResult(ErrorMessage errorMessage) {
         if (errorMessage != null) {
             this.success = false;
@@ -53,6 +62,11 @@ public class ResponseResult<T> {
     public static <T> ResponseResult<T> error(T data) {
         return new ResponseResult<>(false, data);
     }
+
+    public static <T> ResponseResult<T> error(ErrorMessage message, T data) {
+        return new ResponseResult<>(false, message, data);
+    }
+
 
     public boolean isSuccess() {
         return success;

@@ -1,6 +1,5 @@
 package com.dunera.seckill.controller;
 
-import com.dunera.seckill.exception.ErrorMessage;
 import com.dunera.seckill.exception.GlobalException;
 import com.dunera.seckill.pojo.SecKillInfo;
 import com.dunera.seckill.pojo.SecKillOrder;

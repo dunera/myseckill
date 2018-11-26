@@ -67,5 +67,6 @@ public interface SecKillService {
     /**
      * 更新列表缓存
      */
-    void updateSecKillInfos();
+    void updateSecKillInfosCache();
+
 }

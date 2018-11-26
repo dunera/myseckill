@@ -27,6 +27,7 @@ public class ErrorMessage {
     public static final ErrorMessage USER_REPEAT = new ErrorMessage("U1001", "用户已存在");
     public static final ErrorMessage USER_NOT_LOGIN = new ErrorMessage("U1002", "用户未登录");
     public static final ErrorMessage USER_PASSWD_WRONG = new ErrorMessage("U1003", "用户名或密码错误");
+    public static final ErrorMessage USER_EMPTY = new ErrorMessage("U1003", "用户名或密码不能为空");
 
     /**
      * 商品展示
